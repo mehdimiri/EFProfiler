@@ -20,3 +20,10 @@ To display the logs as follows :
      app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EFProfiler - Mehdi Miri"});
 </code>
 </pre>
+Then enter the following address in the browser
+<pre lang="code">
+<code>
+    https://{sitename}/efprofiler/index.html
+</code>
+</pre>
+![image](https://drive.google.com/uc?export=view&id=1LiQwjmudVo-WdQ9m-Ps1tFCDgZMtFXd2)
