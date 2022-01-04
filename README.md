@@ -14,7 +14,7 @@ Add required services Startup class as below :
 </code>
 </pre>
 
-To display the logs as follows :
+To display the logs :
 <pre lang="code">
 <code>
      app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EFProfiler - Mehdi Miri"});
