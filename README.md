@@ -27,7 +27,18 @@ To display the logs :
      app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EFProfiler - Mehdi Miri"});
 </code>
 </pre>
-Then enter the following address in the browser
+Configuring Dashboard authorization :
+<pre lang="code">
+<code>
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.EFProfilerUI(new EFProfilerUIOptions { Authorization = new EFProfleAuthorization { Roles = "admin" ,Users="Mehdi" } });
+
+</code>
+</pre>
+
+Then enter the following address in the browser :
 <pre lang="code">
 <code>
     https://{sitename}/efprofiler/index.html
