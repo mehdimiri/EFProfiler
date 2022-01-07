@@ -9,7 +9,7 @@ namespace EFProfiler.Model
 {
     public class LogModel
     {
-        public DateTime LogDate { get; set; } = DateTime.UtcNow;
+        public string LogDate { get; set; } = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
         public string Query { get; set; }
         public double TotalMilliseconds { get; set; }
         public double TotalSeconds { get; set; }
