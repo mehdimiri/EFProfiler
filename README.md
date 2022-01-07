@@ -1,6 +1,13 @@
 # EFProfiler
 Entity Framework Profiler (EFProfiler) is a tool for finding slow queries
-
+<h2> Install via NuGet</h2>
+To install EFProfiler, run the following command in Package Manager Console
+<pre lang="code">
+<code>
+    pm> Install-Package EFProfiler
+</code>
+</pre>
+<p>You can also view the <a href="https://www.nuget.org/packages/EFProfiler/" rel="nofollow">package page</a> on NuGet.</p>
 <h2>How to use ?</h2>
 Add required services Startup class as below :
 
