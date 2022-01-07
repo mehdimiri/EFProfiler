@@ -2,12 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Mehdi Miri</Authors>
+    <Company>Mehdi Miri</Company>
+    <Description>Entity Framework Profiler (EFProfiler) is a tool for finding slow queries</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/mehdimiri/EFProfiler</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mehdimiri/EFProfiler</RepositoryUrl>
+    <PackageTags>csharp,entity-framework,entity-framework-core,efprofiler,profiler,core</PackageTags>
+	<DocumentationMarkdownURL>https://github.com/mehdimiri/EFProfiler/blob/master/README.md</DocumentationMarkdownURL>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="EFProfilerUI\index.html"></EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.9" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

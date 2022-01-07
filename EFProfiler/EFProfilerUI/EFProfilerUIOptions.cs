@@ -21,5 +21,7 @@ namespace EFProfiler.EFProfilerUI
         public string DocumentTitle { get; set; } = "EFProfiler UI";
 
         public string HeadContent { get; set; } = "EFProfiler";
+
+        public EFProfleAuthorization Authorization { get; set; }
     }
 }
