@@ -26,4 +26,4 @@ Then enter the following address in the browser
     https://{sitename}/efprofiler/index.html
 </code>
 </pre>
-![image](https://drive.google.com/uc?export=view&id=1LiQwjmudVo-WdQ9m-Ps1tFCDgZMtFXd2)
+![image](https://drive.google.com/uc?export=view&id=18NC5LrTBBhaZOhaLoyoV12yY0G58gnrr)
