@@ -33,7 +33,7 @@ Configuring Dashboard authorization :
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.EFProfilerUI(new EFProfilerUIOptions { Authorization = new EFProfleAuthorization { Roles = "admin" ,Users="Mehdi" } });
+    app.EFProfilerUI(new EFProfilerUIOptions { Authorization = new EFProfleAuthorization { Roles = "admin,master" , Users="mehdi" } });
 
 </code>
 </pre>
