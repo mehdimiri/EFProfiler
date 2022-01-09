@@ -24,7 +24,7 @@ Add required services Startup class as below :
 To display the logs :
 <pre lang="code">
 <code>
-     app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EFProfiler - Mehdi Miri"});
+     app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EF Profiler"});
 </code>
 </pre>
 Configuring Dashboard authorization :
@@ -33,8 +33,7 @@ Configuring Dashboard authorization :
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.EFProfilerUI(new EFProfilerUIOptions { Authorization = new EFProfleAuthorization { Roles = "admin,master" , Users="mehdi" } });
-
+    app.EFProfilerUI(new EFProfilerUIOptions { Authorization = new EFProfleAuthorization { Roles = "admin,master" , Users = "mehdi" } });
 </code>
 </pre>
 
