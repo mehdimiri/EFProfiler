@@ -28,7 +28,7 @@ namespace EFProfiler.EFProfilerUI
     public class EFProfilerUIMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly EFProfilerUIOptions _options;
+        private readonly EFProfilerSetting _options;
         private readonly StaticFileMiddleware _staticFileMiddleware;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
@@ -36,11 +36,11 @@ namespace EFProfiler.EFProfilerUI
           [NotNull] RequestDelegate next,
           IWebHostEnvironment hostingEnv,
           ILoggerFactory loggerFactory,
-          EFProfilerUIOptions options)
+          EFProfilerSetting options)
         {
             if (next == null) throw new ArgumentNullException(nameof(next));
             _next = next;
-            _options = options ?? new EFProfilerUIOptions();
+            _options = options ?? new EFProfilerSetting();
             _staticFileMiddleware = CreateStaticFileMiddleware(_next, hostingEnv, loggerFactory, options);
             _jsonSerializerOptions = new JsonSerializerOptions();
             _jsonSerializerOptions.IgnoreNullValues = true;
@@ -52,7 +52,7 @@ namespace EFProfiler.EFProfilerUI
         {
             var httpMethod = httpContext.Request.Method;
             var path = httpContext.Request.Path.Value;
-            if (httpMethod == "GET" && Regex.IsMatch(path, $"^/?{Regex.Escape(_options.RoutePrefix)}/?$", RegexOptions.IgnoreCase))
+            if (httpMethod == "GET" && Regex.IsMatch(path, $"^/?{Regex.Escape(_options.EFProfilerUIOptions.RoutePrefix)}/?$", RegexOptions.IgnoreCase))
             {
                 var relativeIndexUrl = string.IsNullOrEmpty(path) || path.EndsWith("/")
                     ? "index.html"
@@ -61,7 +61,7 @@ namespace EFProfiler.EFProfilerUI
                 return;
             }
 
-            if (httpMethod == "GET" && Regex.IsMatch(path, $"^/{Regex.Escape(_options.RoutePrefix)}/?index.html$", RegexOptions.IgnoreCase))
+            if (httpMethod == "GET" && Regex.IsMatch(path, $"^/{Regex.Escape(_options.EFProfilerUIOptions.RoutePrefix)}/?index.html$", RegexOptions.IgnoreCase))
             {
                 await RespondWithIndexHtml(httpContext);
                 return;
@@ -74,11 +74,11 @@ namespace EFProfiler.EFProfilerUI
            RequestDelegate next,
            IWebHostEnvironment hostingEnv,
            ILoggerFactory loggerFactory,
-           EFProfilerUIOptions options)
+           EFProfilerSetting options)
         {
             var staticFileOptions = new StaticFileOptions
             {
-                RequestPath = string.IsNullOrEmpty(options.RoutePrefix) ? string.Empty : $"/{options.RoutePrefix}",
+                RequestPath = string.IsNullOrEmpty(options.EFProfilerUIOptions.RoutePrefix) ? string.Empty : $"/{options.EFProfilerUIOptions.RoutePrefix}",
                 FileProvider = new EmbeddedFileProvider(typeof(EFProfilerUIMiddleware).GetTypeInfo().Assembly, ""),
             };
 
@@ -93,9 +93,9 @@ namespace EFProfiler.EFProfilerUI
 
         private async Task RespondWithIndexHtml(HttpContext httpContext)
         {
-            if (!string.IsNullOrEmpty(_options.Authorization.Roles) || !string.IsNullOrEmpty(_options.Authorization.Users))
+            if (!string.IsNullOrEmpty(_options.EFProfilerUIOptions.Authorization.Roles) || !string.IsNullOrEmpty(_options.EFProfilerUIOptions.Authorization.Users))
             {
-                if (_options.Authorization.Authorize(httpContext))
+                if (_options.EFProfilerUIOptions.Authorization.Authorize(httpContext))
                 {
                     await RenderDashboard(httpContext);
                 }
@@ -115,9 +115,9 @@ namespace EFProfiler.EFProfilerUI
         {
             return new Dictionary<string, string>()
             {
-                { "%(DocumentTitle)", _options.DocumentTitle },
-                { "%(HeadContent)", _options.HeadContent },
-                { "$LogItems$", JsonSerializer.Serialize(GetLogs(_options.FolderPathRepository), _jsonSerializerOptions) }
+                { "%(DocumentTitle)", _options.EFProfilerUIOptions.DocumentTitle },
+                { "%(HeadContent)", _options.EFProfilerUIOptions.HeadContent },
+                { "$LogItems$", JsonSerializer.Serialize(GetLogs(_options.Path), _jsonSerializerOptions) }
             };
         }
 
@@ -138,7 +138,7 @@ namespace EFProfiler.EFProfilerUI
         {
             httpContext.Response.StatusCode = 200;
             httpContext.Response.ContentType = "text/html;charset=utf-8";
-            using (var stream = _options.IndexStream())
+            using (var stream = _options.EFProfilerUIOptions.IndexStream())
             {
                 var htmlBuilder = new StringBuilder(new StreamReader(stream).ReadToEnd());
                 foreach (var entry in GetIndexArguments())
@@ -154,10 +154,10 @@ namespace EFProfiler.EFProfilerUI
         {
             httpContext.Response.StatusCode = 401;
             httpContext.Response.ContentType = "text/html;charset=utf-8";
-            using (var stream = _options.IndexStream())
+            using (var stream = _options.EFProfilerUIOptions.IndexStream())
             {
                 var htmlBuilder = new StringBuilder(new StreamReader(stream).ReadToEnd());
-                htmlBuilder.Replace("%(DocumentTitle)", _options.DocumentTitle);
+                htmlBuilder.Replace("%(DocumentTitle)", _options.EFProfilerUIOptions.DocumentTitle);
                 htmlBuilder.Replace("%(HeadContent)", "Lack of access to the dashboard");
                 await httpContext.Response.WriteAsync(htmlBuilder.ToString(), Encoding.UTF8);
             }

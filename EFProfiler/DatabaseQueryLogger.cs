@@ -1,8 +1,12 @@
 ﻿using EFProfiler.Model;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Common;
 using System.IO;
 using System.Linq;
@@ -15,19 +19,15 @@ namespace EFProfiler
 {
     public class DatabaseQueryLogger : DbCommandInterceptor
     {
-        private int maxMillisecond { get; set; } = 0;
-        private string path { get; set; }
-        private bool activeLog { get; set; }
-        public DatabaseQueryLogger(int maxMillisecond, string path, bool activeLog = true)
+        private static  EFProfilerSetting _efProfilerSetting { get; set; }
+        public DatabaseQueryLogger(IConfiguration configuration)
         {
-            this.maxMillisecond = maxMillisecond;
-            this.path = path;
-            this.activeLog = activeLog;
+            _efProfilerSetting = configuration.GetSection("EFProfilerSetting").Get<EFProfilerSetting>();
         }
 
         public override ValueTask<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData eventData, DbDataReader result, CancellationToken cancellationToken = default)
         {
-            if (activeLog && eventData.Duration.Milliseconds > maxMillisecond)
+            if (_efProfilerSetting.ActiveLog && eventData.Duration.Milliseconds > _efProfilerSetting.MaxMillisecond)
             {
                 LogLongQuery(command, eventData);
             }
@@ -36,7 +36,7 @@ namespace EFProfiler
 
         public override DbDataReader ReaderExecuted(DbCommand command, CommandExecutedEventData eventData, DbDataReader result)
         {
-            if (activeLog && eventData.Duration.Milliseconds > maxMillisecond)
+            if (_efProfilerSetting.ActiveLog && eventData.Duration.Milliseconds > _efProfilerSetting.MaxMillisecond)
             {
                 LogLongQuery(command, eventData);
             }
@@ -45,7 +45,7 @@ namespace EFProfiler
 
         private void LogLongQuery(DbCommand command, CommandExecutedEventData evenData)
         {
-            var pathFile = path + DateTime.UtcNow.Ticks + ".json";
+            var pathFile = _efProfilerSetting.Path + DateTime.UtcNow.Ticks + ".json";
             using (FileStream fileStream = System.IO.File.Create(pathFile))
             {
                 LogModel vm = new LogModel()

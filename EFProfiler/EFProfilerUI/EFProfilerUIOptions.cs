@@ -13,7 +13,6 @@ namespace EFProfiler.EFProfilerUI
     public class EFProfilerUIOptions
     {
         public string RoutePrefix { get; set; } = "efprofiler";
-        public string FolderPathRepository { get; set; } = $"wwwroot\\LogFile\\";
 
         public Func<Stream> IndexStream { get; set; } = () => typeof(EFProfilerUIOptions).GetTypeInfo().Assembly
          .GetManifestResourceStream("EFProfiler.EFProfilerUI.index.html");

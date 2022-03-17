@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/mehdimiri/EFProfiler</RepositoryUrl>
     <PackageTags>csharp,entity-framework,entity-framework-core,efprofiler,profiler,core</PackageTags>
 	<DocumentationMarkdownURL>https://github.com/mehdimiri/EFProfiler/blob/master/README.md</DocumentationMarkdownURL>
+	<Version>1.0.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="EFProfilerUI\index.html"></EmbeddedResource>
