@@ -16,7 +16,7 @@ Add required services Startup class as below :
      services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(_configuration.GetConnectionString("DataContext"));
-                options.AddInterceptors(new DatabaseQueryLogger(10, $"wwwroot\\LogFile\\"));
+                options.AddInterceptors(_configuration);
             });
 </code>
 </pre>
@@ -24,7 +24,7 @@ Add required services Startup class as below :
 To display the logs :
 <pre lang="code">
 <code>
-     app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EF Profiler"});
+     app.EFProfilerUI(_configuration);
 </code>
 </pre>
 Configuring Dashboard authorization :
@@ -33,7 +33,7 @@ Configuring Dashboard authorization :
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.EFProfilerUI(new EFProfilerUIOptions { Authorization = new EFProfleAuthorization { Roles = "admin,master" , Users = "mehdi" } });
+    app.EFProfilerUI(_configuration);
 </code>
 </pre>
 
