@@ -24,10 +24,20 @@ Add required services Startup class as below :
 To display the logs :
 <pre lang="code">
 <code>
-     app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EFProfiler - Mehdi Miri"});
+     app.EFProfilerUI(new EFProfilerUIOptions { HeadContent= "EF Profiler"});
 </code>
 </pre>
-Then enter the following address in the browser
+Configuring Dashboard authorization :
+<pre lang="code">
+<code>
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.EFProfilerUI(new EFProfilerUIOptions { Authorization = new EFProfleAuthorization { Roles = "admin,master" , Users = "mehdi" } });
+</code>
+</pre>
+
+Then enter the following address in the browser :
 <pre lang="code">
 <code>
     https://{sitename}/efprofiler/index.html
