@@ -9,6 +9,27 @@ To install EFProfiler, run the following command in Package Manager Console
 </pre>
 <p>You can also view the <a href="https://www.nuget.org/packages/EFProfiler/" rel="nofollow">package page</a> on NuGet.</p>
 <h2>How to use ?</h2>
+
+You should add this configuration in appsetting.js file :
+<pre lang="code">
+<code>
+ "EFProfilerSetting": {
+    "MaxMillisecond": 100,
+    "Path": "wwwroot\\LogFile\\",
+    "ActiveLog": true,
+    "EFProfilerUIOptions": {
+         "RoutePrefix": "efprofiler",
+         "DocumentTitle": "EFProfiler UI",
+         "HeadContent": "EFProfiler",
+         "Authorization": {
+            "Roles": "admin",
+            "Users": ""
+         }
+     }
+  }
+</code>
+</pre>
+
 Add required services Startup class as below :
 
 <pre lang="code">
